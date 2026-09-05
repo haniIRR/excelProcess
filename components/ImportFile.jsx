@@ -22,7 +22,19 @@ export default function ImportFile({
     var wbook = XLSX.read(data, {
       type: "array",
     });
-    setSheetData(wbook);
+    var finalData = [];
+    // for (let index = 0; index < wbook.SheetNames.length; index++) {
+    //   var firstSheetName = wbook.SheetNames[index];
+    //   var sheet = wbook.Sheets[firstSheetName];
+    //   var jsonData = XLSX.utils.sheet_to_json(sheet);
+    //   finalData.push(jsonData);
+    // }
+
+    // console.log(finalData);
+    var firstSheetName = wbook.SheetNames[0];
+    var sheet = wbook.Sheets[firstSheetName];
+    var jsonData = XLSX.utils.sheet_to_json(sheet);
+    setSheetData(jsonData);
   }
 
   function nextLevel() {

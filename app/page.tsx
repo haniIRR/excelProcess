@@ -9,9 +9,9 @@ export default function Home() {
   const [currentSteps, setCurrentSteps] = useState(1);
   const [file, setFile] = useState(null);
   const [sheetData, setSheetData] = useState(null);
-  useEffect(() => {
-    console.log(sheetData);
-  }, [sheetData]);
+  // useEffect(() => {
+  //   console.log(sheetData);
+  // }, [sheetData]);
   return (
     <div className="w-[80%] m-auto">
       <HeaderPage />
