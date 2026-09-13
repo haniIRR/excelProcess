@@ -8,39 +8,40 @@ export default function SheetColumn({
   setSheetData,
 }) {
   const [column, setColumn] = useState(
-    Object.keys(data).map((a) => a.replace(/\r?\n/g, " ").trim())
+    Object.keys(data).map((a) => {
+      const cleaned = a.replace(/\r?\n/g, " ").trim();
+      return { key: a, label: cleaned };
+    })
   );
 
   function updateColumn(value, index) {
     setColumn((p) => {
-      return p.map((a, i) => {
+      return p.map((item, i) => {
         if (i == index) {
-          return value;
+          return { ...item, label: value };
         } else {
-          return a;
+          return item;
         }
       });
     });
   }
+
   function DeleteCol(index) {
     setColumn((p) => {
-      return p.filter((a, i) => i != index);
+      return p.filter((item, i) => i != index);
     });
-    console.log(column);
   }
-  useEffect(
-    (a) => {
-      setnameCol(column);
-    },
-    [column]
-  );
+
+  useEffect(() => {
+    setnameCol(column);
+  }, [column]);
 
   return (
     <div className="w-full space-y-4">
-      {Object.keys(data).map((c, index) => {
+      {column.map((item, index) => {
         return (
           <div
-            key={c}
+            key={item.key}
             className="group overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm transition-all duration-200 hover:border-slate-300 hover:shadow-md"
           >
             {/* Header */}
@@ -56,7 +57,7 @@ export default function SheetColumn({
                   </p>
 
                   <p className="mt-0.5 max-w-[300px] truncate text-sm font-semibold text-slate-800">
-                    {c}
+                    {item.key}
                   </p>
                 </div>
               </div>
@@ -76,7 +77,9 @@ export default function SheetColumn({
                   </label>
 
                   <div className="flex h-[44px] items-center rounded-xl border border-slate-200 bg-slate-50 px-4">
-                    <span className="truncate text-sm text-slate-600">{c}</span>
+                    <span className="truncate text-sm text-slate-600">
+                      {item.key}
+                    </span>
                   </div>
                 </div>
 
@@ -88,6 +91,7 @@ export default function SheetColumn({
 
                   <input
                     type="text"
+                    defaultValue={item.label}
                     onBlur={(e) => updateColumn(e.target.value, index)}
                     className="h-[44px] w-full rounded-xl border border-slate-200 bg-white px-4 text-sm text-slate-700 outline-none transition placeholder:text-slate-400 hover:border-slate-300 focus:border-blue-400 focus:ring-4 focus:ring-blue-50"
                     placeholder="نام نمایشی ستون را وارد کنید..."
